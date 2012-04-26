@@ -41,22 +41,3 @@ obj.queue <- setRefClass(
 )
 
 queue <- obj.queue$new()
-
-
-queue$test <- "blah"
-
-
-test <- new("Model", name=c("a", "b"))
-set
-
-
-Polygon <- setRefClass("Polygon", fields = c("sides", "polygon"))
-triangle <- Polygon$new(sides = 3)
-
-square <- Polygon$new(sides = 4)
-square$polygon <- Polygon$new(sides=3)
-
-triangle <- square
-triangle$sides <- 3
-
-square$sides    
