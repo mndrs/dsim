@@ -9,35 +9,52 @@ dprint <- function(x) {
   }
 }
 
+
 model <- setRefClass(
   'model',
-  fields=c('clock', 'event.list', 'event.log', 'objects'),
+  fields=c('clock', 'event.list', 'obj.list', 'obj.num'),
   methods = list(
     initialize = function(clock, event.list, event.log) {
       clock <<- 0
-      event.list <<- data.table()
-      event.log <<- data.table()
-      objects <<- list()
-    }    
+      event.list <<- data.frame()
+      obj.list <<- list()
+      obj.num <<- 0
+    },
+    add.obj = function(obj) {
+      dprint("class:model, method:add.obj")
+      obj$parent <- .self
+      obj.list <<- c(obj.list, obj)
+      obj.num <<- obj.num + 1
+      obj$id <- obj.num
+      return(obj)
+    }
   )
 )
 
 obj <- setRefClass(
   'obj',
-  #general methods: run...
-)
-
-obj.queue <- setRefClass(
-  'obj.queue',
-  contains = 'obj',
-  fields = c("size", "wait.fun", "next", "prev", "items"),
+  fields <- c("id", "parent", "prev.obj", "next.obj", "items"),
   methods = list(
-    initialize = function(size=0, wait.fun=function(){NA}) {
-      dprint(paste(size, wait.fun()))
-      size <<- size
-      wait.fun <<- wait.fun
+    initialized = function() {
+      parent <<- list(parent)
+      prev.obj <<- NA
+      next.obj <<- NA
+      items <<- data.frame()      
+    },
+    run = function() {      
+    },
+    pass = function() {
+      return()
+      
     }
   )
 )
 
-queue <- obj.queue$new()
+
+
+mod <- model$new()
+obj1 <- mod$add.obj(obj$new())
+obj2 <- mod$add.obj(obj$new())
+obj3 <- mod$add.obj(obj$new())
+obj4 <- mod$add.obj(obj$new())
+
